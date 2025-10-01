@@ -3,12 +3,9 @@ from PIL import Image
 from transformers import VisionEncoderDecoderModel, ViTImageProcessor, AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
 import json
-from streamlit_chat import message  # pip install streamlit-chat
+from streamlit_chat import message  
 import numpy as np
 
-# -----------------------------
-# Helper: Prepare any type of image
-# -----------------------------
 def prepare_image(image):
     if isinstance(image, str):
         try:
@@ -28,9 +25,7 @@ def prepare_image(image):
 
     return image
 
-# -----------------------------
 # Load Image Captioning Model
-# -----------------------------
 @st.cache_resource(show_spinner=True)
 def load_caption_model(model_name="nlpconnect/vit-gpt2-image-captioning"):
     model = VisionEncoderDecoderModel.from_pretrained(model_name)
@@ -42,9 +37,7 @@ def load_caption_model(model_name="nlpconnect/vit-gpt2-image-captioning"):
 
 caption_model, feature_extractor, tokenizer, device = load_caption_model()
 
-# -----------------------------
 # Load GPT-2 Text Model
-# -----------------------------
 @st.cache_resource(show_spinner=True)
 def load_text_model(model_name="gpt2-medium"):
     text_tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -59,9 +52,7 @@ def load_text_model(model_name="gpt2-medium"):
 
 text_generator = load_text_model()
 
-# -----------------------------
 # Generate Captions
-# -----------------------------
 def generate_captions(image, max_length=50, num_beams=4, num_return_sequences=3,
                       do_sample=True, top_k=50, top_p=0.95, temperature=1.0):
     if num_beams < num_return_sequences:
@@ -81,9 +72,7 @@ def generate_captions(image, max_length=50, num_beams=4, num_return_sequences=3,
     captions = [tokenizer.decode(ids, skip_special_tokens=True) for ids in outputs]
     return captions
 
-# -----------------------------
 # Generate AI Chat Response
-# -----------------------------
 def get_ai_response(user_input, last_caption):
     if not user_input.strip():
         return ""
@@ -106,9 +95,7 @@ def get_ai_response(user_input, last_caption):
     except Exception:
         return "Sorry, I couldn't generate a suggestion."
 
-# -----------------------------
 # Streamlit UI
-# -----------------------------
 st.set_page_config(page_title="AI Image Caption Generator", layout="wide")
 st.markdown("<h1 style='text-align: center;'>🖼️ AI Image Caption Generator</h1>", unsafe_allow_html=True)
 
@@ -131,7 +118,7 @@ if "chat_history" not in st.session_state:
 # Layout
 col1, col2 = st.columns([2, 1])
 
-# --- Left: Image & Captions ---
+#  Image & Captions
 with col1:
     uploaded_file = st.file_uploader("Upload Image", type=["png", "jpg", "jpeg"])
     if uploaded_file:
@@ -178,7 +165,7 @@ with col1:
                     file_name="captions.json"
                 )
 
-# --- Right: Chatbox ---
+# Chatbox 
 with col2:
     st.markdown("### Chat with AI about your image")
 
