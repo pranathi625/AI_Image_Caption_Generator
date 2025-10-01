@@ -31,9 +31,9 @@ A Streamlit web app that generates captions for images using a vision-language m
 ```bash
 git clone https://github.com/pranathi625/AI_Image_Caption_Generator.git
 cd AI_Image_Caption_Generator
-
+```
 2. Set Up Environment & Install Dependencies
-
+```bash
 # Create virtual environment
 python -m venv venv
 
@@ -46,12 +46,13 @@ source venv/bin/activate
 
 # Install required packages
 pip install -r requirements.txt
-
+```
 3. Run the Streamlit App
+```bash
 streamlit run app.py
+```
 
-
-4. Open in Browser
+5. Open in Browser
 After running the above command, Streamlit will provide a local URL like:
 Local URL: http://localhost:8501
 Network URL: http://192.168.xx.xx:8501
